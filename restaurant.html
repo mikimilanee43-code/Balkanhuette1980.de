@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant - Balkan-Hütte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo-mobile {
+            display: none;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: #C41E3A;
+        }
+
+        nav a.active {
+            color: #C41E3A;
+        }
+
+        /* Page Header */
+        .page-header {
+            background-color: #C41E3A;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+
+        /* Restaurant Section */
+        .restaurant {
+            background-color: #fff;
+            padding: 4rem 2rem;
+        }
+
+        .restaurant-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .restaurant-hero {
+            margin-bottom: 3rem;
+        }
+
+        .restaurant-image-large {
+            width: 100%;
+            height: 400px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .restaurant-image-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .restaurant-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .restaurant-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .restaurant-card {
+            background-color: #f9f9f9;
+            overflow: hidden;
+        }
+
+        .restaurant-image {
+            width: 100%;
+            height: 250px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .restaurant-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-gallery {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        .gallery-image.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .gallery-image.exit {
+            transform: translateX(-100%);
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .gallery-dot.active {
+            background-color: #C41E3A;
+        }
+
+        .restaurant-card-text {
+            padding: 1.5rem;
+        }
+
+        .restaurant-card-text h3 {
+            color: #C41E3A;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .restaurant-card-text p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c2c2c;
+        }
+
+        .footer-bar {
+            background-color: #2c2c2c;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #C41E3A;
+        }
+
+        .footer-links .separator {
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-logo-mobile {
+                display: block;
+            }
+
+            .nav-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-container {
+                display: none;
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #eee;
+            }
+
+            .nav-container.open {
+                display: flex;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .nav-left, .nav-right {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .restaurant-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .restaurant-image-large {
+                height: 300px;
+            }
+
+            .restaurant-image {
+                height: 200px;
+            }
+
+            .footer-bar {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-wrapper">
+            <img class="nav-logo-mobile" src="https://i.ibb.co/8gYQDNh6/balkan-huette-logo-seit1980.jpg" alt="Balkan-Hütte Logo" style="height: 50px; width: auto;">
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()">&#9776;</button>
+        </div>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html">HOME</a>
+                <a href="restaurant.html" class="active">RESTAURANT</a>
+                <a href="speisekarte.html">SPEISEKARTE</a>
+            </div>
+            <div class="nav-center">
+                <img src="https://i.ibb.co/8gYQDNh6/balkan-huette-logo-seit1980.jpg" alt="Balkan-Hütte Logo" class="logo">
+            </div>
+            <div class="nav-right">
+                <a href="reservierung.html">RESERVIERUNG</a>
+                <a href="anfahrt.html">ANFAHRT</a>
+                <a href="kontakt.html">KONTAKT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Unser Restaurant</h1>
+    </section>
+
+    <!-- Restaurant Section -->
+    <section class="restaurant">
+        <div class="restaurant-container">
+            <!-- Main entrance image with text -->
+            <div class="restaurant-hero">
+                <div class="restaurant-image-large">
+                    <img src="https://i.ibb.co/My3WkCZ2/IMG-7253.jpg" alt="Balkan-Hütte Eingang">
+                </div>
+                <div class="restaurant-text">
+                    <p>Treten Sie ein in unsere gemütliche Balkan-Hütte, wo traditionelle Gastfreundschaft auf authentische Küche trifft. Unsere warme Atmosphäre lädt Sie ein, unvergessliche Momente mit Familie und Freunden zu genießen.</p>
+                </div>
+            </div>
+            
+            <!-- Two column layout for interior and events -->
+            <div class="restaurant-grid">
+                <div class="restaurant-card">
+                    <div class="restaurant-image">
+                        <div class="image-gallery" id="interior-gallery">
+                            <div class="gallery-image active">
+                                <img src="https://i.ibb.co/MxVs8gby/IMG-7251.jpg" alt="Restaurant Interior 1">
+                            </div>
+                            <div class="gallery-image">
+                                <img src="https://i.ibb.co/0kWs0qJ/IMG-7250.jpg" alt="Restaurant Interior 2">
+                            </div>
+                            <div class="gallery-image">
+                                <img src="https://i.ibb.co/20szpHDG/IMG-7248.jpg" alt="Restaurant Interior 3">
+                            </div>
+                            <div class="gallery-dots">
+                                <span class="gallery-dot active" onclick="showGalleryImage('interior', 0)"></span>
+                                <span class="gallery-dot" onclick="showGalleryImage('interior', 1)"></span>
+                                <span class="gallery-dot" onclick="showGalleryImage('interior', 2)"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="restaurant-card-text">
+                        <h3>Unser Restaurant</h3>
+                        <p>Gemütliche Atmosphäre mit rustikalem Charme. Platz für bis zu 70 Gäste in unserem Hauptraum und separatem Bereich für private Feiern.</p>
+                    </div>
+                </div>
+                
+                <div class="restaurant-card">
+                    <div class="restaurant-image">
+                        <div class="image-gallery" id="events-gallery">
+                            <div class="gallery-image active">
+                                <img src="https://i.ibb.co/R1hZpD3/IMG-7271.jpg" alt="Events 1">
+                            </div>
+                            <div class="gallery-image">
+                                <img src="https://i.ibb.co/fY2XbjWc/IMG-7273.jpg" alt="Events 2">
+                            </div>
+                            <div class="gallery-image">
+                                <img src="https://i.ibb.co/mVrdknwK/IMG-7274.jpg" alt="Events 3">
+                            </div>
+                            <div class="gallery-dots">
+                                <span class="gallery-dot active" onclick="showGalleryImage('events', 0)"></span>
+                                <span class="gallery-dot" onclick="showGalleryImage('events', 1)"></span>
+                                <span class="gallery-dot" onclick="showGalleryImage('events', 2)"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="restaurant-card-text">
+                        <h3>Events & Feiern</h3>
+                        <p>Feiern Sie besondere Anlässe bei uns: Geburtstage, Firmenfeiern, Hochzeiten und mehr. Wir gestalten Ihren Tag unvergesslich.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bar">
+            <span>© Balkan-Hütte - Inh. Djurdja Zdravkovic</span>
+            <div class="footer-links">
+                <a href="impressum.html">Impressum</a>
+                <span class="separator">•</span>
+                <a href="datenschutz.html">Datenschutzerklärung</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-container').classList.toggle('open');
+        }
+
+        const galleries = {
+            interior: { current: 0, total: 3 },
+            events: { current: 0, total: 3 }
+        };
+
+        function showGalleryImage(gallery, index) {
+            const galleryElement = document.getElementById(gallery + '-gallery');
+            const images = galleryElement.querySelectorAll('.gallery-image');
+            const dots = galleryElement.querySelectorAll('.gallery-dot');
+
+            const currentImage = galleryElement.querySelector('.gallery-image.active');
+            if (currentImage) {
+                currentImage.classList.add('exit');
+                currentImage.classList.remove('active');
+            }
+
+            setTimeout(() => {
+                images.forEach(img => img.classList.remove('exit'));
+            }, 800);
+
+            images[index].classList.add('active');
+            
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+
+            galleries[gallery].current = index;
+        }
+
+        setInterval(() => {
+            Object.keys(galleries).forEach(gallery => {
+                const next = (galleries[gallery].current + 1) % galleries[gallery].total;
+                showGalleryImage(gallery, next);
+            });
+        }, 4000);
+    </script>
+</body>
+</html>
