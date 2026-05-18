@@ -207,6 +207,14 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            /* Hero image: switch to contain so the full image is always visible */
+            .hero-image {
+                height: 0;
+                padding-bottom: 75%; /* scales proportionally with the screen width */
+                background-size: contain;
+                background-color: #f5f5f5;
+            }
+
             .hamburger {
                 display: block;
             }
